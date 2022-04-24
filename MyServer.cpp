@@ -41,7 +41,7 @@ int main() {
 	char host[NI_MAXHOST];
 	//Service
 	char svc[NI_MAXSERV];
-	int clientSocket = accept(listening, AF_INET, (sockaddr*)&client, &clientSize);
+	int clientSocket = accept(listening, /*AF_INET, */ (sockaddr*)&client, &clientSize);
 	if (clientSocket == -1) {
 		cerr << "Problem with client connecting!" << endl;
 		return -4;
@@ -50,9 +50,9 @@ int main() {
 	close(listening);
 	memset(host, 0, NI_MAXHOST);
 	memset(svc, 0 ,NI_MAXSERV);
-	int result = genameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, svc, NI_MAXSERV);
+	int result = getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, svc, NI_MAXSERV, AF_INET);
 	if (result) {
-		cout << host << " connected  on " << service << endl;
+		cout << host << " connected  on " << svc << endl;
 	}
 	else {
 		//network to port
@@ -65,7 +65,7 @@ int main() {
 		//Clear the Buffer
 		memset(buf, 0, 4096);
 		//Wait for a Message
-		int bytesRecv = recv(clientSocket, but, 4096, 0);
+		int bytesRecv = recv(clientSocket, buf, 4096, 0);
 		if (bytesRecv == -1) {
 			cerr << "There was a connection issue" << endl;
 			break;
