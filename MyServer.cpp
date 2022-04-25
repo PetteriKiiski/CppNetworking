@@ -50,7 +50,7 @@ int main() {
 	close(listening);
 	memset(host, 0, NI_MAXHOST);
 	memset(svc, 0 ,NI_MAXSERV);
-	int result = getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, svc, NI_MAXSERV, AF_INET);
+	int result = getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, svc, NI_MAXSERV, 0);
 	if (result) {
 		cout << host << " connected  on " << svc << endl;
 	}
